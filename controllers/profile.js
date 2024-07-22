@@ -13,9 +13,9 @@ const getProfile = async (req, res) => {
 
     // Extract relevant user information
     const { username, displayusername, _id } = user;
-    res.status(200).json({ username, displayusername, userid: _id });
+    return res.status(200).json({ username, displayusername, userid: _id });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };
 
@@ -37,10 +37,10 @@ const updateProfile = async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ msg: "User profile updated successfully" }); // Successfully updated
+    return res.status(200).json({ msg: "User profile updated successfully" }); // Successfully updated
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ error: "Server Error" });
+    return res.status(500).json({ error: "Server Error" });
   }
 };
 

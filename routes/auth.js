@@ -6,9 +6,9 @@ const { getCarList, addCar } = require("../controllers/car");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 router.post("/register", register);
-router.post("/login", login);
-router.post("/logout", logout);
-router.get("/getprofile", getProfile);
+router.post("/session/login", login);
+router.post("/session/logout", logout);
+router.get("/getprofile", authMiddleware, getProfile);
 router.post("/updateprofile", authMiddleware, updateProfile);
 
 //Car

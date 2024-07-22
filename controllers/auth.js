@@ -5,9 +5,27 @@ const register = async (req, res) => {
   const { username, password, displayusername, timestamp } = req.body;
 
   if (!username || !password || !displayusername || !timestamp) {
-    res.status(400).json({
-      status: "error",
+    return res.status(400).json({
+      status: "400",
       message: "Please add all fields",
+    });
+  }
+
+  //check if user exits
+  const userExits = await User.findOne({ username });
+  if (userExits) {
+    return res.status(400).json({
+      status: "400",
+      message: "User already exits",
+    });
+  }
+
+  // check timestamp
+  const timeExits = await User.findOne({ timestamp });
+  if (timeExits) {
+    return res.status(400).json({
+      status: "400",
+      message: "Timestamp already exits",
     });
   }
 
@@ -16,13 +34,13 @@ const register = async (req, res) => {
     const user = new User({ username, password, displayusername, timestamp });
     await user.save();
     const token = generateToken(user);
-    res.status(201).json({
+    return res.status(201).json({
       token,
       displayusername: user.displayusername,
       userid: user._id,
     });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };
 

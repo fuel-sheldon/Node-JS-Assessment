@@ -11,9 +11,9 @@ const getCarList = async (req, res) => {
     const totalcount = await Car.countDocuments(query);
     const list = await Car.find(query).skip(skip).limit(limit);
 
-    res.json({ list, totalcount });
+    return res.json({ list, totalcount });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
